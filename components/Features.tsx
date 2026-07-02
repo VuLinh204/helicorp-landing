@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 
@@ -139,27 +139,19 @@ function FeatureCard({
     <div
       ref={cardRef}
       id={`feature-${feature.id}`}
-      className="reveal glass rounded-3xl p-6 flex flex-col gap-5 group cursor-default
-                 hover:border-opacity-20 transition-all duration-300 hover:-translate-y-1"
+      className="reveal glass rounded-3xl p-6 flex flex-col gap-5 cursor-default h-full transition-all duration-300"
       style={{
         transitionDelay: `${index * 80}ms`,
         border: isDark
           ? "1px solid rgba(255,255,255,0.07)"
           : "1px solid rgba(0,0,0,0.06)",
       }}
-      onMouseEnter={(e) => {
-        const el = e.currentTarget;
-        el.style.boxShadow = `0 16px 48px ${feature.colorLight}, 0 0 0 1px ${feature.color}22`;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.boxShadow = "none";
-      }}
     >
       {/* Icon + Badge */}
       <div className="flex items-start justify-between">
         <div
           className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl
-                     transition-transform duration-300 group-hover:scale-110"
+                     transition-transform duration-300"
           style={{ background: feature.colorLight }}
         >
           <feature.icon className="w-6 h-6 stroke-[2px]" style={{ color: feature.color }} />
@@ -184,8 +176,8 @@ function FeatureCard({
           {feature.title}
         </h3>
         <p
-          className="text-sm leading-relaxed flex-1"
-          style={{ color: isDark ? "#64748B" : "#64748B" }}
+          className="text-base leading-relaxed flex-1"
+          style={{ color: isDark ? "#94A3B8" : "#475569" }}
         >
           {feature.description}
         </p>
@@ -241,6 +233,29 @@ export function Features() {
   const isDark = theme === "dark";
   const headingRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [itemsPerView, setItemsPerView] = useState(1);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1280) setItemsPerView(2); // xl
+      else if (window.innerWidth >= 768) setItemsPerView(2); // md
+      else setItemsPerView(1); // mobile
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const maxIndex = Math.max(0, FEATURES.length - itemsPerView);
+
+  // Auto-play slider
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [currentIndex, maxIndex]);
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -381,11 +396,73 @@ export function Features() {
             </div>
           </div>
 
-          {/* Right — Feature grid */}
-          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5">
-            {FEATURES.map((feature, i) => (
-              <FeatureCard key={feature.id} feature={feature} index={i} />
-            ))}
+          {/* Right — Feature Slider */}
+          <div className="flex-1 w-full overflow-hidden relative">
+            <div 
+              className="flex items-stretch"
+              style={{ 
+                width: `${(FEATURES.length * 100) / itemsPerView}%`,
+                transform: `translateX(-${currentIndex * (100 / FEATURES.length)}%)`,
+                transition: "transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)",
+              }}
+            >
+              {FEATURES.map((feature, i) => (
+                <div key={feature.id} className="flex-shrink-0 px-2 sm:px-4 flex justify-center" style={{ width: `${100 / FEATURES.length}%` }}>
+                  <div className="w-full">
+                    <FeatureCard feature={feature} index={i} />
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            {/* Navigation controls */}
+            <div className="flex items-center justify-center gap-6 mt-8">
+              <button 
+                onClick={() => setCurrentIndex(Math.max(0, currentIndex - 1))}
+                disabled={currentIndex === 0}
+                className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
+                style={{ 
+                  background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)",
+                  color: isDark ? "#F1F5F9" : "#0F172A",
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m15 18-6-6 6-6"/>
+                </svg>
+              </button>
+              
+              <div className="flex gap-2.5">
+                {Array.from({ length: maxIndex + 1 }).map((_, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => setCurrentIndex(i)} 
+                    className="rounded-full transition-all duration-300 cursor-pointer hover:opacity-100"
+                    style={{
+                      width: i === currentIndex ? "24px" : "10px",
+                      height: "10px",
+                      background: i === currentIndex 
+                        ? (isDark ? "#818CF8" : "#4F46E5") 
+                        : (isDark ? "rgba(255,255,255,0.2)" : "rgba(0,0,0,0.18)"),
+                    }}
+                    aria-label={`Go to slide ${i + 1}`}
+                  />
+                ))}
+              </div>
+
+              <button 
+                onClick={() => setCurrentIndex(Math.min(maxIndex, currentIndex + 1))}
+                disabled={currentIndex >= maxIndex}
+                className="w-10 h-10 rounded-full flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-105 active:scale-95 disabled:opacity-30 disabled:hover:scale-100 disabled:cursor-not-allowed"
+                style={{ 
+                  background: isDark ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.07)",
+                  color: isDark ? "#F1F5F9" : "#0F172A",
+                }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m9 18 6-6-6-6"/>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>

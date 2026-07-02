@@ -316,6 +316,65 @@ body.light-mode .glass-strong {
 .delay-600 { transition-delay: 600ms; }
 
 /* ============================================================
+   Tab & Slider Transition Animations
+   ============================================================ */
+
+@keyframes tab-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tab-enter-up {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slide-up-soft {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-tab-enter {
+  animation: tab-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease both;
+}
+
+.animate-slide-up-soft {
+  animation: slide-up-soft 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Spec card stagger */
+.spec-card-enter {
+  animation: slide-up-soft 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ============================================================
    Button Styles
    ============================================================ */
 

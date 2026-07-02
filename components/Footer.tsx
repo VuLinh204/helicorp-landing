@@ -45,7 +45,7 @@ export function Footer() {
         }}
       />
 
-      <div className="container-xl py-16">
+      <div className="container-xl py-24">
         {/* Top row */}
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-24 mb-16">
           {/* Brand column */}
@@ -69,10 +69,10 @@ export function Footer() {
               </span>
             </div>
             <p
-              className="text-sm leading-relaxed mb-6"
-              style={{ color: isDark ? "#475569" : "#64748B" }}
+              className="text-base leading-relaxed mb-8 mt-2"
+              style={{ color: isDark ? "#94A3B8" : "#475569" }}
             >
-              <strong className="font-semibold" style={{ color: isDark ? "#64748B" : "#475569" }}>
+              <strong className="font-semibold" style={{ color: isDark ? "#CBD5E1" : "#334155" }}>
                 Healthy Living Corporation
               </strong>{" "}
               — Chúng tôi tin rằng mỗi người đều có quyền hiểu sức khoẻ của mình
@@ -108,8 +108,8 @@ export function Footer() {
               ([key, links]) => (
                 <div key={key}>
                   <h3
-                    className="text-xs font-bold tracking-widest uppercase mb-5"
-                    style={{ color: isDark ? "#475569" : "#94A3B8" }}
+                    className="text-sm font-bold tracking-widest uppercase mb-6"
+                    style={{ color: isDark ? "#94A3B8" : "#64748B" }}
                   >
                     {key.replace("_", " ")}
                   </h3>
@@ -118,8 +118,8 @@ export function Footer() {
                       <li key={link.label}>
                         <a
                           href={link.href}
-                          className="text-sm transition-colors duration-200 hover:opacity-80"
-                          style={{ color: isDark ? "#64748B" : "#64748B" }}
+                          className="text-base transition-colors duration-200 hover:text-blue-500"
+                          style={{ color: isDark ? "#94A3B8" : "#475569" }}
                         >
                           {link.label}
                         </a>
@@ -140,16 +140,16 @@ export function Footer() {
           }}
         >
           <p
-            className="text-xs text-center sm:text-left"
-            style={{ color: isDark ? "#374151" : "#94A3B8" }}
+            className="text-sm text-center sm:text-left"
+            style={{ color: isDark ? "#64748B" : "#94A3B8" }}
           >
             © {year} HELICORP — Healthy Living Corporation. Mọi quyền được bảo lưu.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
             <span
-              className="text-xs"
-              style={{ color: isDark ? "#374151" : "#94A3B8" }}
+              className="text-sm"
+              style={{ color: isDark ? "#64748B" : "#94A3B8" }}
             >
               Tất cả hệ thống hoạt động bình thường
             </span>
