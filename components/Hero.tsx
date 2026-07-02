@@ -3,8 +3,18 @@
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
-import { Ring3D } from "./Ring3D";
 import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
+import dynamic from "next/dynamic";
+
+const Ring3D = dynamic(() => import("./Ring3D").then((mod) => mod.Ring3D), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-32 h-32 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin" />
+    </div>
+  ),
+});
+
 // Stats shown floating in hero
 const HERO_STATS = [
   { value: "7 ngày", label: "Thời lượng pin", icon: Zap, isHero: true },
