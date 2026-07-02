@@ -203,7 +203,7 @@ export function NewsletterForm() {
     <section
       id="newsletter"
       ref={sectionRef}
-      className="py-28 md:py-36 relative overflow-hidden"
+      className="py-20 md:py-24 relative overflow-hidden"
       style={{
         background: isDark
           ? "linear-gradient(180deg, #050B18 0%, #080F1F 100%)"
