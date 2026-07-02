@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react";
 import { useTheme } from "./ThemeProvider";
 
+import { Gem, Microscope, Zap, Brain } from "lucide-react";
+
 const SPECS = [
   {
     category: "Thiết kế & Vật liệu",
-    icon: "💍",
+    icon: Gem,
     items: [
       { label: "Chất liệu", value: "Titan Grade 5 (aerospace)" },
       { label: "Độ dày", value: "2.3mm — siêu mỏng nhất thị trường" },
@@ -18,7 +20,7 @@ const SPECS = [
   },
   {
     category: "Cảm biến & Đo lường",
-    icon: "🔬",
+    icon: Microscope,
     items: [
       { label: "Nhịp tim", value: "PPG Optical v3 — 1Hz liên tục, ±1 bpm" },
       { label: "SpO2", value: "Red + IR LED — đo mỗi 30 phút, ±1%" },
@@ -30,7 +32,7 @@ const SPECS = [
   },
   {
     category: "Pin & Kết nối",
-    icon: "⚡",
+    icon: Zap,
     items: [
       { label: "Dung lượng pin", value: "18mAh Li-Ion (custom form factor)" },
       { label: "Thời lượng", value: "7 ngày (chế độ thường), 5 ngày (intensive)" },
@@ -42,7 +44,7 @@ const SPECS = [
   },
   {
     category: "Phần mềm & AI",
-    icon: "🧠",
+    icon: Brain,
     items: [
       { label: "Bộ xử lý onboard", value: "ARM Cortex-M33 @ 64MHz" },
       { label: "Storage", value: "14 ngày dữ liệu offline" },
@@ -108,7 +110,15 @@ function SpecGroup({
           borderBottom: isDark ? "1px solid rgba(255,255,255,0.06)" : "1px solid rgba(0,0,0,0.05)",
         }}
       >
-        <span className="text-2xl">{group.icon}</span>
+        <div 
+          className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm"
+          style={{ 
+            background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+            color: isDark ? "#818CF8" : "#4F46E5"
+          }}
+        >
+          <group.icon className="w-5 h-5 stroke-[2px]" />
+        </div>
         <h3
           className="font-bold text-base"
           style={{ color: isDark ? "#CBD5E1" : "#1E293B" }}

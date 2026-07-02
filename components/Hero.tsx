@@ -4,12 +4,14 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 
+import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
+
 // Stats shown floating in hero
 const HERO_STATS = [
-  { value: "98%", label: "Độ chính xác SpO2", icon: "💧" },
-  { value: "7 ngày", label: "Thời lượng pin", icon: "⚡" },
-  { value: "2.3mm", label: "Siêu mỏng", icon: "💍" },
-  { value: "24/7", label: "Theo dõi liên tục", icon: "🫀" },
+  { value: "7 ngày", label: "Thời lượng pin", icon: Zap, isHero: true },
+  { value: "98%", label: "Độ chính xác SpO2", icon: Droplets },
+  { value: "2.3mm", label: "Siêu mỏng", icon: Activity },
+  { value: "24/7", label: "Theo dõi liên tục", icon: HeartPulse },
 ];
 
 export function Hero() {
@@ -242,35 +244,58 @@ export function Hero() {
               </div>
             </div>
 
-            {/* Stat Cards */}
+            {/* Stat Cards Bento Grid */}
             <div
-              className="hero-animate grid grid-cols-2 gap-3 w-full"
+              className="hero-animate grid grid-cols-2 md:grid-cols-3 gap-3 w-full"
               style={{
                 opacity: 0,
                 transform: "translateY(20px)",
                 transition: "opacity 0.7s, transform 0.7s",
               }}
             >
-              {HERO_STATS.map((stat) => (
-                <div
-                  key={stat.label}
-                  className="glass rounded-2xl px-4 py-4 flex flex-col gap-1.5"
-                >
-                  <span className="text-xl">{stat.icon}</span>
-                  <span
-                    className="text-2xl font-bold tracking-tight"
-                    style={{ color: isDark ? "#F1F5F9" : "#0F172A" }}
+              {HERO_STATS.map((stat) => {
+                const isHero = stat.isHero;
+                const Icon = stat.icon;
+                return (
+                  <div
+                    key={stat.label}
+                    className={`group glass rounded-2xl p-5 flex flex-col justify-between gap-4 overflow-hidden relative transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_20px_rgba(99,102,241,0.2)] ${
+                      isHero ? "col-span-2 row-span-2" : "col-span-1"
+                    }`}
+                    style={{
+                      border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
+                    }}
                   >
-                    {stat.value}
-                  </span>
-                  <span
-                    className="text-xs leading-snug"
-                    style={{ color: isDark ? "#64748B" : "#94A3B8" }}
-                  >
-                    {stat.label}
-                  </span>
-                </div>
-              ))}
+                    {/* Subtle gradient background on hover */}
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                         style={{ background: isDark ? "radial-gradient(circle at top right, rgba(99,102,241,0.15), transparent 70%)" : "radial-gradient(circle at top right, rgba(99,102,241,0.08), transparent 70%)" }}
+                    />
+                    
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:-rotate-3 shadow-sm ${
+                      isHero 
+                        ? (isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-50 text-indigo-600') 
+                        : (isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600')
+                    }`}>
+                      <Icon className="w-5 h-5 stroke-[2px]" />
+                    </div>
+                    
+                    <div className="flex flex-col gap-1 z-10">
+                      <span
+                        className={`${isHero ? 'text-4xl md:text-5xl font-mono' : 'text-2xl'} font-bold tracking-tight tabular-nums`}
+                        style={{ color: isDark ? "#F1F5F9" : "#0F172A" }}
+                      >
+                        {stat.value}
+                      </span>
+                      <span
+                        className="text-xs font-medium leading-snug"
+                        style={{ color: isDark ? "#94A3B8" : "#64748B" }}
+                      >
+                        {stat.label}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

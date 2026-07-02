@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type KeyboardEvent } from "react";
+import { Bot } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 interface Message {
@@ -26,7 +27,7 @@ function TypingIndicator({ isDark }: { isDark: boolean }) {
           background: "linear-gradient(135deg, #3B82F6, #6366F1)",
         }}
       >
-        💍
+        <Bot className="w-4 h-4 text-white" />
       </div>
       <div
         className="chat-message-bot flex items-center gap-1.5"
@@ -61,7 +62,7 @@ export function Chatbot() {
       id: "welcome",
       role: "assistant",
       content:
-        "Xin chào! Tôi là trợ lý AI của AuraRing 💍\n\nTôi có thể giúp bạn tìm hiểu về tính năng, thông số kỹ thuật, giá cả và cách đặt hàng. Bạn muốn biết gì?",
+        "Xin chào! Tôi là trợ lý AI của AuraRing.\n\nTôi có thể giúp bạn tìm hiểu về tính năng, thông số kỹ thuật, giá cả và cách đặt hàng. Bạn muốn biết gì?",
       timestamp: new Date(),
     },
   ]);
@@ -207,7 +208,7 @@ export function Chatbot() {
           }}
         >
           <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-lg">
-            💍
+            <Bot className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1">
             <div className="text-sm font-bold text-white">AuraRing AI</div>
@@ -247,7 +248,7 @@ export function Chatbot() {
                   className="w-7 h-7 rounded-full flex items-center justify-center text-sm flex-shrink-0"
                   style={{ background: "linear-gradient(135deg, #3B82F6, #6366F1)" }}
                 >
-                  💍
+                  <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
 

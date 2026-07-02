@@ -4,10 +4,12 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 
+import { HeartPulse, Moon, Droplets, Zap, Activity, Thermometer } from "lucide-react";
+
 const FEATURES = [
   {
     id: "heart-rate",
-    icon: "🫀",
+    icon: HeartPulse,
     color: "#EF4444",
     colorLight: "rgba(239,68,68,0.12)",
     title: "Nhịp tim liên tục",
@@ -21,7 +23,7 @@ const FEATURES = [
   },
   {
     id: "sleep",
-    icon: "🌙",
+    icon: Moon,
     color: "#8B5CF6",
     colorLight: "rgba(139,92,246,0.12)",
     title: "Phân tích giấc ngủ",
@@ -35,7 +37,7 @@ const FEATURES = [
   },
   {
     id: "spo2",
-    icon: "💧",
+    icon: Droplets,
     color: "#06B6D4",
     colorLight: "rgba(6,182,212,0.12)",
     title: "Nồng độ oxy SpO2",
@@ -49,7 +51,7 @@ const FEATURES = [
   },
   {
     id: "energy",
-    icon: "⚡",
+    icon: Zap,
     color: "#F59E0B",
     colorLight: "rgba(245,158,11,0.12)",
     title: "Chỉ số năng lượng",
@@ -63,7 +65,7 @@ const FEATURES = [
   },
   {
     id: "hrv",
-    icon: "📊",
+    icon: Activity,
     color: "#10B981",
     colorLight: "rgba(16,185,129,0.12)",
     title: "Biến thiên nhịp tim HRV",
@@ -77,7 +79,7 @@ const FEATURES = [
   },
   {
     id: "temp",
-    icon: "🌡️",
+    icon: Thermometer,
     color: "#F97316",
     colorLight: "rgba(249,115,22,0.12)",
     title: "Nhiệt độ cơ thể",
@@ -160,7 +162,7 @@ function FeatureCard({
                      transition-transform duration-300 group-hover:scale-110"
           style={{ background: feature.colorLight }}
         >
-          {feature.icon}
+          <feature.icon className="w-6 h-6 stroke-[2px]" style={{ color: feature.color }} />
         </div>
         <span
           className="text-xs font-mono font-semibold px-2.5 py-1 rounded-full"
@@ -342,7 +344,7 @@ export function Features() {
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-lg"
                       style={{ background: "rgba(239,68,68,0.15)" }}
                     >
-                      🫀
+                      <HeartPulse className="w-5 h-5 stroke-[2.5px]" style={{ color: "#EF4444" }} />
                     </div>
                     <div>
                       <div className="text-sm font-bold" style={{ color: "#F1F5F9" }}>

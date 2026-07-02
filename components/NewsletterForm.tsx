@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, type FormEvent, type ChangeEvent } from "react";
+import { CheckCircle, XCircle, PartyPopper, Sparkles, Check } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 interface FormState {
@@ -34,7 +35,7 @@ function Toast({ state }: { state: ToastState }) {
         state.visible ? "show" : ""
       }`}
     >
-      <span className="mr-2">{state.type === "success" ? "✓" : "✕"}</span>
+      <span className="mr-2 inline-flex items-center">{state.type === "success" ? <CheckCircle className="w-4 h-4" /> : <XCircle className="w-4 h-4" />}</span>
       {state.message}
     </div>
   );
@@ -188,7 +189,7 @@ export function NewsletterForm() {
   `;
 
   const inputStyle = {
-    background: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
+    backgroundColor: isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.04)",
     border: `1px solid ${isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.1)"}`,
     color: isDark ? "#F1F5F9" : "#0F172A",
   };
@@ -241,7 +242,7 @@ export function NewsletterForm() {
                 color: "#818CF8",
               }}
             >
-              ✦ Đặt trước — Ưu đãi ra mắt
+              <Sparkles className="w-3 h-3" /> Đặt trước — Ưu đãi ra mắt
             </div>
             <h2
               className="text-4xl md:text-5xl font-bold tracking-tight mb-5"
@@ -264,20 +265,21 @@ export function NewsletterForm() {
             {/* Benefits pills */}
             <div className="flex flex-wrap justify-center gap-2 mt-6">
               {[
-                "✓ Giá ưu đãi 20%",
-                "✓ Giao hàng đợt 1",
-                "✓ Hỗ trợ 1-1",
-                "✓ Bảo hành 2 năm",
+                "Giá ưu đãi 20%",
+                "Giao hàng đợt 1",
+                "Hỗ trợ 1-1",
+                "Bảo hành 2 năm",
               ].map((benefit) => (
                 <span
                   key={benefit}
-                  className="text-xs font-medium px-3 py-1.5 rounded-full"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-full"
                   style={{
                     background: isDark ? "rgba(16,185,129,0.1)" : "rgba(16,185,129,0.08)",
                     border: "1px solid rgba(16,185,129,0.2)",
                     color: "#34D399",
                   }}
                 >
+                  <Check className="w-3 h-3 flex-shrink-0" />
                   {benefit}
                 </span>
               ))}
@@ -299,7 +301,7 @@ export function NewsletterForm() {
                   className="w-20 h-20 rounded-full flex items-center justify-center text-4xl animate-heartbeat"
                   style={{ background: "rgba(16,185,129,0.15)" }}
                 >
-                  🎉
+                  <PartyPopper className="w-10 h-10" style={{ color: "#10B981" }} />
                 </div>
                 <div>
                   <h3
