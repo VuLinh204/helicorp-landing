@@ -29,7 +29,7 @@ function RingModel({ isDark }: { isDark: boolean }) {
         để tạo ra hình dáng bản nhẫn thông minh (phẳng và rộng ngang) giống hệt đời thực.
       */}
       <mesh ref={meshRef} castShadow receiveShadow scale={[1, 1, 0.35]}>
-        <torusGeometry args={[2.6, 0.9, 64, 128]} />
+        <torusGeometry args={[2.6, 0.9, 32, 64]} />
         <meshPhysicalMaterial 
           color={isDark ? "#111827" : "#0F172A"} // Màu đen/titan tối giống nhẫn Oura/Aura
           metalness={1} 
@@ -57,6 +57,7 @@ export function Ring3D() {
       
       <Canvas 
         shadows 
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 11], fov: 45 }}
         onCreated={() => setIsLoaded(true)}
       >
@@ -81,9 +82,9 @@ export function Ring3D() {
         <RingModel isDark={isDark} />
 
         {/* Môi trường phản chiếu cao cấp */}
-        <Environment preset={isDark ? "city" : "studio"} />
+        <Environment preset={isDark ? "city" : "studio"} resolution={256} />
         
-        {/* Bóng đổ chân thực dưới đáy */}
+        {/* Bóng đổ chân thực dưới đáy (Bake 1 lần để tối ưu hiệu năng) */}
         <ContactShadows 
           position={[0, -3.8, 0]} 
           opacity={isDark ? 0.6 : 0.3} 
@@ -91,6 +92,8 @@ export function Ring3D() {
           blur={2.5} 
           far={5} 
           color="#000000"
+          resolution={256}
+          frames={1}
         />
       </Canvas>
     </div>
