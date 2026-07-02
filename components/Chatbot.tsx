@@ -84,8 +84,10 @@ export function Chatbot() {
   // Focus input on open
   useEffect(() => {
     if (open) {
-      setTimeout(() => inputRef.current?.focus(), 300);
-      setUnread(0);
+      setTimeout(() => {
+        inputRef.current?.focus();
+        setUnread(0);
+      }, 300);
     }
   }, [open]);
 

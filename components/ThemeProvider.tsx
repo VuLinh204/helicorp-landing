@@ -37,8 +37,10 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     // Read persisted preference from localStorage (client-only)
     const stored = localStorage.getItem("helicorp-theme") as Theme | null;
     if (stored === "light" || stored === "dark") {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme(stored);
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
