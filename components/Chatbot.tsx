@@ -260,6 +260,7 @@ export function Chatbot() {
                   {msg.content}
                 </div>
                 <span
+                  suppressHydrationWarning
                   className="text-[10px] px-1"
                   style={{
                     color: isDark ? "#374151" : "#CBD5E1",

@@ -240,23 +240,28 @@ export function Features() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
   const headingRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const el = headingRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            el.classList.add("revealed");
-            observer.unobserve(el);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
+    const observers: IntersectionObserver[] = [];
+    [headingRef, imageRef].forEach((ref) => {
+      const el = ref.current;
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              el.classList.add("revealed");
+              obs.unobserve(el);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -315,7 +320,7 @@ export function Features() {
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* Left sticky product image */}
           <div className="lg:sticky lg:top-28 lg:w-80 xl:w-96 flex-shrink-0 mx-auto lg:mx-0">
-            <div className="reveal-scale relative">
+            <div ref={imageRef} className="reveal-scale relative">
               <div
                 className="rounded-3xl overflow-hidden relative aspect-[4/5]"
                 style={{
