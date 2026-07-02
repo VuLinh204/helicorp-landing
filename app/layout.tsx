@@ -95,7 +95,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#050B18" />
       </head>
-      <body className="min-h-screen antialiased overflow-x-hidden">
+      <body className="min-h-screen antialiased overflow-x-hidden" suppressHydrationWarning>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
