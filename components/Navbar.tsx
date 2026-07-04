@@ -17,7 +17,9 @@ export function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const { theme } = useTheme();
   const isDark = theme === "dark";
+  const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const toggleButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,16 +45,34 @@ export function Navbar() {
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      const target = e.target as Node;
+      const isToggleClick = toggleButtonRef.current?.contains(target);
+      const isMenuClick = menuRef.current?.contains(target);
+
+      if (isToggleClick || isMenuClick) {
+        return;
+      }
+
+      if (headerRef.current && !headerRef.current.contains(target)) {
+        setMenuOpen(false);
+        return;
+      }
+
+      if (menuOpen) {
         setMenuOpen(false);
       }
     };
-    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
   return (
     <header
+      ref={headerRef}
       id="navbar"
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={{
@@ -149,6 +169,8 @@ export function Navbar() {
 
             {/* Mobile menu button */}
             <button
+              ref={toggleButtonRef}
+              type="button"
               id="mobile-menu-toggle"
               className="md:hidden flex items-center justify-center w-10 h-10 rounded-xl transition-colors"
               style={{
@@ -157,7 +179,10 @@ export function Navbar() {
                   : "rgba(0,0,0,0.06)",
                 color: isDark ? "#F1F5F9" : "#0F172A",
               }}
-              onClick={() => setMenuOpen((o) => !o)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setMenuOpen((o) => !o);
+              }}
               aria-label="Mở menu"
               aria-expanded={menuOpen}
             >
