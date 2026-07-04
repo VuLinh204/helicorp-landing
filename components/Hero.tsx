@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
 
@@ -110,29 +109,45 @@ export function Hero() {
         </div>
 
         <div className="hero-animate-subtle relative w-64 h-64 md:w-96 md:h-96 lg:w-[480px] lg:h-[480px] my-8 lg:my-12 z-20" style={{ animationDelay: "0.24s" }}>
+          {/* Outer glow ring */}
           <div
             className="absolute inset-0 rounded-full animate-pulse-ring pointer-events-none"
             style={{
-              background: "radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%)",
+              background: "radial-gradient(ellipse, rgba(99,102,241,0.18) 0%, transparent 65%)",
             }}
           />
+          {/* Inner glow ring */}
           <div
             className="absolute inset-8 rounded-full animate-pulse-ring pointer-events-none"
             style={{
-              animationDelay: "1s",
-              background: "radial-gradient(ellipse, rgba(6,182,212,0.12) 0%, transparent 70%)",
+              animationDelay: "1.2s",
+              background: "radial-gradient(ellipse, rgba(6,182,212,0.14) 0%, transparent 65%)",
+            }}
+          />
+          {/* Bottom shadow blur */}
+          <div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/5 h-8 pointer-events-none"
+            style={{
+              background: "radial-gradient(ellipse, rgba(99,102,241,0.25) 0%, transparent 70%)",
+              filter: "blur(12px)",
             }}
           />
 
-          <Image
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/aura-ring-hero.png"
             alt="AuraRing — nhẫn thông minh theo dõi sức khỏe"
             width={480}
             height={480}
-            priority
             fetchPriority="high"
-            sizes="(max-width: 768px) 256px, (max-width: 1024px) 384px, 480px"
-            className="relative w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(99,102,241,0.35)] animate-float"
+            className="relative w-full h-full object-contain animate-float"
+            style={{
+              mixBlendMode: isDark ? "screen" : "normal",
+              filter: isDark
+                ? "drop-shadow(0 0 40px rgba(99,102,241,0.5)) drop-shadow(0 0 80px rgba(6,182,212,0.2)) brightness(1.1) saturate(1.2)"
+                : "drop-shadow(0 0 30px rgba(99,102,241,0.4)) brightness(0.95)",
+              borderRadius: isDark ? "0" : "24px",
+            }}
           />
         </div>
 
