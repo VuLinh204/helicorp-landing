@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
 
@@ -133,14 +134,13 @@ export function Hero() {
             }}
           />
 
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             src="/aura-ring-hero.png"
             alt="AuraRing — nhẫn thông minh theo dõi sức khỏe"
-            width={480}
-            height={480}
-            fetchPriority="high"
-            className="relative w-full h-full object-contain animate-float"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 480px"
+            className="relative object-contain animate-float"
             style={{
               mixBlendMode: isDark ? "screen" : "normal",
               filter: isDark
