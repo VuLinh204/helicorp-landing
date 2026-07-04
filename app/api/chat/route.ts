@@ -37,6 +37,7 @@ async function callGemini(
   history: ChatMessage[]
 ): Promise<string> {
   const apiKey = process.env.GEMINI_API_KEY;
+  const model = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
   if (!apiKey) throw new Error("GEMINI_API_KEY chưa được cấu hình");
 
   // Build contents array for Gemini
@@ -57,7 +58,7 @@ async function callGemini(
   });
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -149,7 +150,12 @@ export async function POST(req: NextRequest) {
     let reply: string;
 
     if (process.env.GEMINI_API_KEY) {
-      reply = await callGemini(body.message, history);
+      try {
+        reply = await callGemini(body.message, history);
+      } catch (error) {
+        console.error("[Chat API] Gemini fallback error:", error);
+        reply = getFallbackResponse(body.message);
+      }
     } else {
       // Graceful fallback when no API key
       console.warn("[Chat API] GEMINI_API_KEY not set — using fallback responses");
