@@ -16,9 +16,10 @@ export function ChatbotLazy() {
     if ("requestIdleCallback" in window) {
       const id = window.requestIdleCallback(load, { timeout: 3000 });
       return () => window.cancelIdleCallback(id);
+    } else {
+      const timer: ReturnType<typeof setTimeout> = setTimeout(load, 1500);
+      return () => clearTimeout(timer);
     }
-    const timer = window.setTimeout(load, 1500);
-    return () => window.clearTimeout(timer);
   }, []);
 
   if (!ready) return null;
