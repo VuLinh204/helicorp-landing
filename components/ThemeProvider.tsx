@@ -57,18 +57,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   }, []);
 
-  // Prevent hydration mismatch: render a non-interactive skeleton
-  // until the theme is read from localStorage on the client.
-  if (!mounted) {
-    return (
-      <ThemeContext.Provider value={{ theme: "dark", toggleTheme }}>
-        {children}
-      </ThemeContext.Provider>
-    );
-  }
-
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme: mounted ? theme : "dark", toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   );

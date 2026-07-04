@@ -5,13 +5,14 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "vietnamese"],
+  weight: ["400", "600", "700"],
   variable: "--font-inter",
   display: "swap",
   preload: true,
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://helicorp-landing.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://helicorp-landing-rho.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),

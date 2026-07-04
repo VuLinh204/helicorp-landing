@@ -92,20 +92,6 @@ export function Chatbot() {
     }
   }, [open]);
 
-  // Track scroll events
-  useEffect(() => {
-    const handleScroll = () => {
-      const pct = Math.round(
-        (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100
-      );
-      if (pct > 0 && pct % 25 === 0) {
-        console.log(`[HELICORP Analytics] Scroll depth: ${pct}%`);
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   async function sendMessage(content: string) {
     if (!content.trim() || loading) return;
 

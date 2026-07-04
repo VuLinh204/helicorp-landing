@@ -4,7 +4,7 @@ import { Features } from "@/components/Features";
 import { Specs } from "@/components/Specs";
 import { NewsletterForm } from "@/components/NewsletterForm";
 import { Footer } from "@/components/Footer";
-import { Chatbot } from "@/components/Chatbot";
+import { ChatbotLazy } from "@/components/ChatbotLazy";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
         <NewsletterForm />
       </main>
       <Footer />
-      <Chatbot />
+      <ChatbotLazy />
       {/* Noise texture overlay for depth */}
       <div className="noise-overlay" aria-hidden="true" />
     </>

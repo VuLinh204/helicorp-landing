@@ -220,9 +220,25 @@ body.light-mode .glass-strong {
   70% { transform: scale(1); }
 }
 
+@keyframes hero-slide-up {
+  from { transform: translateY(12px); }
+  to { transform: translateY(0); }
+}
+
 /* Animation Classes */
 .animate-float {
   animation: float 6s ease-in-out infinite;
+}
+
+.hero-animate-subtle {
+  animation: hero-slide-up 0.6s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-animate-subtle,
+  .animate-float {
+    animation: none;
+  }
 }
 
 .animate-pulse-ring {

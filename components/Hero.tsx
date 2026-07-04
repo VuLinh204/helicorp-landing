@@ -1,21 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import Image from "next/image";
 import { useTheme } from "./ThemeProvider";
 import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
-import dynamic from "next/dynamic";
 
-const Ring3D = dynamic(() => import("./Ring3D").then((mod) => mod.Ring3D), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center">
-      <div className="w-32 h-32 rounded-full border-4 border-indigo-500/20 border-t-indigo-500 animate-spin" />
-    </div>
-  ),
-});
-
-// Stats shown floating in hero
 const HERO_STATS = [
   { value: "7 ngày", label: "Thời lượng pin", icon: Zap, isHero: true },
   { value: "98%", label: "Độ chính xác SpO2", icon: Droplets },
@@ -26,25 +14,10 @@ const HERO_STATS = [
 export function Hero() {
   const { theme } = useTheme();
   const isDark = theme === "dark";
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
-    // Fade in hero elements on mount
-    const items = el.querySelectorAll(".hero-animate");
-    items.forEach((item, i) => {
-      setTimeout(() => {
-        (item as HTMLElement).style.opacity = "1";
-        (item as HTMLElement).style.transform = "translateY(0)";
-      }, 100 + i * 120);
-    });
-  }, []);
 
   return (
     <section
       id="hero"
-      ref={sectionRef}
       className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden mesh-bg pt-32 pb-20"
       style={{
         background: isDark
@@ -52,7 +25,6 @@ export function Hero() {
           : "linear-gradient(180deg, #EFF6FF 0%, #F8FAFC 60%, #EFF6FF 100%)",
       }}
     >
-      {/* Ambient grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -65,7 +37,6 @@ export function Hero() {
         }}
       />
 
-      {/* Radial glow center */}
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full pointer-events-none"
         style={{
@@ -76,15 +47,10 @@ export function Hero() {
       />
 
       <div className="container-xl relative z-10 flex flex-col items-center">
-        {/* Top Header/Copy — Centered */}
         <div className="flex flex-col items-center text-center max-w-4xl mx-auto mb-12 lg:mb-16">
-          {/* Badge */}
           <div
-            className="hero-animate inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase mb-8"
+            className="hero-animate-subtle inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-semibold tracking-wider uppercase mb-8"
             style={{
-              opacity: 0,
-              transform: "translateY(20px)",
-              transition: "opacity 0.7s, transform 0.7s",
               background: isDark
                 ? "rgba(99,102,241,0.15)"
                 : "rgba(99,102,241,0.08)",
@@ -96,41 +62,27 @@ export function Hero() {
             Sắp ra mắt — Đặt trước với giá ưu đãi
           </div>
 
-          {/* Heading */}
           <h1
-            className="hero-animate text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] mb-8"
-            style={{
-              opacity: 0,
-              transform: "translateY(20px)",
-              transition: "opacity 0.7s, transform 0.7s",
-              color: isDark ? "#F1F5F9" : "#0F172A",
-            }}
+            className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-[1.05] mb-8"
+            style={{ color: isDark ? "#F1F5F9" : "#0F172A" }}
           >
             Sức khoẻ của bạn,<br className="hidden md:block" />
             <span className="gradient-text"> ngay trên ngón tay</span>
           </h1>
 
-          {/* Sub-heading */}
           <p
-            className="hero-animate text-lg md:text-xl lg:text-2xl leading-relaxed mb-10 max-w-2xl mx-auto"
+            className="hero-animate-subtle text-lg md:text-xl lg:text-2xl leading-relaxed mb-10 max-w-2xl mx-auto"
             style={{
-              opacity: 0,
-              transform: "translateY(20px)",
-              transition: "opacity 0.7s, transform 0.7s",
+              animationDelay: "0.08s",
               color: isDark ? "#94A3B8" : "#475569",
             }}
           >
             <strong className="font-semibold" style={{ color: isDark ? "#CBD5E1" : "#334155" }}>AuraRing</strong> theo dõi nhịp tim, SpO2, giấc ngủ và mức năng lượng liên tục 24/7 — trong thiết kế nhẫn titan siêu mỏng 2.3mm không cần sạc hàng ngày.
           </p>
 
-          {/* CTA Buttons */}
           <div
-            className="hero-animate flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center"
-            style={{
-              opacity: 0,
-              transform: "translateY(20px)",
-              transition: "opacity 0.7s, transform 0.7s",
-            }}
+            className="hero-animate-subtle flex flex-col sm:flex-row gap-4 w-full sm:w-auto justify-center"
+            style={{ animationDelay: "0.16s" }}
           >
             <a
               href="#newsletter"
@@ -157,16 +109,7 @@ export function Hero() {
           </div>
         </div>
 
-        {/* Central Ring Image */}
-        <div
-          className="hero-animate relative w-64 h-64 md:w-96 md:h-96 lg:w-[480px] lg:h-[480px] my-8 lg:my-12 z-20"
-          style={{
-            opacity: 0,
-            transform: "translateY(20px)",
-            transition: "opacity 0.9s, transform 0.9s",
-          }}
-        >
-          {/* Outer glow rings */}
+        <div className="hero-animate-subtle relative w-64 h-64 md:w-96 md:h-96 lg:w-[480px] lg:h-[480px] my-8 lg:my-12 z-20" style={{ animationDelay: "0.24s" }}>
           <div
             className="absolute inset-0 rounded-full animate-pulse-ring pointer-events-none"
             style={{
@@ -181,21 +124,19 @@ export function Hero() {
             }}
           />
 
-          {/* Product image with spin and float -> Replaced with 3D Ring */}
-          <div className="absolute inset-0">
-             <Ring3D />
-          </div>
+          <Image
+            src="/aura-ring-hero.png"
+            alt="AuraRing — nhẫn thông minh theo dõi sức khỏe"
+            width={480}
+            height={480}
+            priority
+            fetchPriority="high"
+            sizes="(max-width: 768px) 256px, (max-width: 1024px) 384px, 480px"
+            className="relative w-full h-full object-contain drop-shadow-[0_20px_60px_rgba(99,102,241,0.35)] animate-float"
+          />
         </div>
 
-        {/* Stat Cards Bento Grid — Horizontal below ring */}
-        <div
-          className="hero-animate w-full max-w-5xl mx-auto mt-8"
-          style={{
-            opacity: 0,
-            transform: "translateY(20px)",
-            transition: "opacity 0.7s, transform 0.7s",
-          }}
-        >
+        <div className="hero-animate-subtle w-full max-w-5xl mx-auto mt-8" style={{ animationDelay: "0.32s" }}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {HERO_STATS.map((stat, i) => {
               const Icon = stat.icon;
@@ -207,18 +148,29 @@ export function Hero() {
                     border: isDark ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(0,0,0,0.06)",
                   }}
                 >
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
-                       style={{ background: isDark ? "radial-gradient(circle at top right, rgba(99,102,241,0.12), transparent 70%)" : "radial-gradient(circle at top right, rgba(99,102,241,0.06), transparent 70%)" }}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl"
+                    style={{
+                      background: isDark
+                        ? "radial-gradient(circle at top right, rgba(99,102,241,0.12), transparent 70%)"
+                        : "radial-gradient(circle at top right, rgba(99,102,241,0.06), transparent 70%)",
+                    }}
                   />
-                  
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm ${
-                    i === 0 
-                      ? (isDark ? 'bg-indigo-500/20 text-indigo-400' : 'bg-indigo-50 text-indigo-600') 
-                      : (isDark ? 'bg-white/5 text-slate-300' : 'bg-slate-100 text-slate-600')
-                  }`}>
+
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm ${
+                      i === 0
+                        ? isDark
+                          ? "bg-indigo-500/20 text-indigo-400"
+                          : "bg-indigo-50 text-indigo-600"
+                        : isDark
+                          ? "bg-white/5 text-slate-300"
+                          : "bg-slate-100 text-slate-600"
+                    }`}
+                  >
                     <Icon className="w-6 h-6 stroke-[2px]" />
                   </div>
-                  
+
                   <div className="flex flex-col gap-1.5 z-10">
                     <span
                       className="text-3xl font-bold tracking-tight tabular-nums"
@@ -238,10 +190,8 @@ export function Hero() {
             })}
           </div>
         </div>
-
       </div>
 
-      {/* Scroll indicator */}
       <div
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce"
         style={{ color: isDark ? "#475569" : "#94A3B8" }}
