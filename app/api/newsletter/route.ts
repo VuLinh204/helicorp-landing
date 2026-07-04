@@ -60,15 +60,17 @@ export async function POST(req: NextRequest) {
     const resendApiKey = process.env.RESEND_API_KEY;
     const ownerEmail = process.env.OWNER_EMAIL;
     const fromEmail = process.env.FROM_EMAIL ?? "AuraRing <onboarding@resend.dev>";
+    const emailServiceConfigured = Boolean(resendApiKey && ownerEmail);
 
     // --- Send emails via Resend (if configured) ---
-    if (resendApiKey && ownerEmail) {
-      const resend = new Resend(resendApiKey);
+    if (emailServiceConfigured) {
+      const resend = new Resend(resendApiKey!);
+      let confirmationEmailError: { message: string; statusCode: number | null; name: string } | null = null;
 
       // 1. Notification email to owner
       const ownerResult = await resend.emails.send({
         from: fromEmail,
-        to: ownerEmail,
+        to: ownerEmail!,
         subject: `[AuraRing] Đăng ký mới — ${name}`,
         html: `
           <div style="font-family:-apple-system,sans-serif;max-width:600px;margin:0 auto;background:#050B18;color:#F1F5F9;padding:32px;border-radius:16px;">
@@ -86,7 +88,9 @@ export async function POST(req: NextRequest) {
       });
 
       if (ownerResult.error) {
-        console.error("[Newsletter API] Owner email error:", ownerResult.error);
+        console.error("[Newsletter API] Owner email failed:", ownerResult.error);
+      } else {
+        console.log("[Newsletter API] Owner email sent", { id: ownerResult.data?.id, to: ownerEmail });
       }
 
       // 2. Confirmation email to subscriber
@@ -120,7 +124,27 @@ export async function POST(req: NextRequest) {
       });
 
       if (confirmResult.error) {
-        console.error("[Newsletter API] Confirmation email error:", confirmResult.error);
+        console.error(
+          "[Newsletter API] Confirmation email failed:",
+          JSON.stringify(confirmResult.error, null, 2)
+        );
+        confirmationEmailError = confirmResult.error;
+      } else {
+        console.log("[Newsletter API] Confirmation email sent", { id: confirmResult.data?.id, to: email });
+      }
+
+      if (confirmationEmailError) {
+        const errorMessage =
+          confirmationEmailError.name === "validation_error"
+            ? "Resend test-mode restriction: verify a sending domain in Resend and use a matching FROM_EMAIL in .env.local, or send only to the owner email while testing."
+            : "Đăng ký thành công, nhưng email xác nhận chưa gửi được. Vui lòng thử lại hoặc liên hệ giúp đỡ.";
+
+        return NextResponse.json(
+          {
+            error: errorMessage,
+          },
+          { status: 502 }
+        );
       }
     } else {
       // Dev mode — log to console when Resend not configured
