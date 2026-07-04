@@ -135,7 +135,7 @@ export function Hero() {
           />
 
           <Image
-            src="/aura-ring-hero.png"
+            src="/aura-ring-hero.webp"
             alt="AuraRing — nhẫn thông minh theo dõi sức khỏe"
             fill
             priority

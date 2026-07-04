@@ -348,7 +348,7 @@ export function Features() {
                 }}
               >
                 <Image
-                  src="/aura-ring-features.png"
+                  src="/aura-ring-features.webp"
                   alt="AuraRing được đeo trên tay — cảm biến sức khỏe hoạt động"
                   fill
                   sizes="(max-width: 1024px) 100vw, 384px"

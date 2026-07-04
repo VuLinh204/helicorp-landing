@@ -57,7 +57,7 @@ export const metadata: Metadata = {
       "AuraRing theo dõi nhịp tim, giấc ngủ, SpO2 và mức năng lượng 24/7. Công nghệ sức khỏe tiên tiến, thiết kế siêu mỏng 2.3mm. Bởi HELICORP.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.webp",
         width: 1200,
         height: 630,
         alt: "AuraRing — Nhẫn Thông Minh Theo Dõi Sức Khỏe bởi HELICORP",
@@ -69,7 +69,7 @@ export const metadata: Metadata = {
     title: "AuraRing — Nhẫn Thông Minh Theo Dõi Sức Khỏe",
     description:
       "AuraRing theo dõi nhịp tim, giấc ngủ, SpO2 và mức năng lượng 24/7 trong thiết kế nhẫn siêu mỏng.",
-    images: ["/og-image.png"],
+    images: ["/og-image.webp"],
   },
   icons: {
     icon: [
