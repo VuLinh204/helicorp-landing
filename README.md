@@ -1,5 +1,7 @@
 # AuraRing — Smart Health Ring Landing Page
 
+domain: https://helicorp-landing-rho.vercel.app/
+
 Landing page giới thiệu sản phẩm **AuraRing**, nhẫn thông minh theo dõi sức khỏe (nhịp tim, giấc ngủ, SpO2, mức năng lượng). Dự án được thực hiện cho bài test **Vòng 2 - Thực tập sinh IT Phát triển Website** tại HELICORP.
 
 ## Công nghệ sử dụng
