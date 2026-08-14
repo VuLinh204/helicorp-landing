@@ -1,8 +1,14 @@
 "use client";
 
-import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useTheme } from "./ThemeProvider";
 import { Droplets, Zap, Activity, HeartPulse } from "lucide-react";
+import ThreeRingPlaceholder from "./ThreeRingPlaceholder";
+
+const ThreeRing = dynamic(() => import("./ThreeRing"), {
+  ssr: false,
+  loading: () => <ThreeRingPlaceholder />,
+});
 
 const HERO_STATS = [
   { value: "7 ngày", label: "Thời lượng pin", icon: Zap, isHero: true },
@@ -134,21 +140,7 @@ export function Hero() {
             }}
           />
 
-          <Image
-            src="/aura-ring-hero.webp"
-            alt="AuraRing — nhẫn thông minh theo dõi sức khỏe"
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 480px"
-            className="relative object-contain animate-float"
-            style={{
-              mixBlendMode: isDark ? "screen" : "normal",
-              filter: isDark
-                ? "drop-shadow(0 0 40px rgba(99,102,241,0.5)) drop-shadow(0 0 80px rgba(6,182,212,0.2)) brightness(1.1) saturate(1.2)"
-                : "drop-shadow(0 0 30px rgba(99,102,241,0.4)) brightness(0.95)",
-              borderRadius: isDark ? "0" : "24px",
-            }}
-          />
+          <ThreeRing />
         </div>
 
         <div className="hero-animate-subtle w-full max-w-5xl mx-auto mt-8" style={{ animationDelay: "0.32s" }}>
